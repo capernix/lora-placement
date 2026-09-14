@@ -1,0 +1,14 @@
+{
+  "cka": {
+    "spearman_rho": -1.0,
+    "p_value": 0.0
+  },
+  "grad_norm": {
+    "spearman_rho": -1.0,
+    "p_value": 0.0
+  },
+  "fisher": {
+    "spearman_rho": -1.0,
+    "p_value": 0.0
+  }
+}

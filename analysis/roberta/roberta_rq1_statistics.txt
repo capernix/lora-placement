@@ -1,0 +1,1 @@
+Friedman repeated-measures test on complete seeds (n=2, layers=12): statistic=17.7092, df=11, p=0.0885776, Kendall W=0.804965. Missing pairs: [(3, 2)].

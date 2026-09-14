@@ -1,0 +1,2 @@
+method,complete_seeds,layers,statistic,df,p_value,kendall_W,missing_pairs
+Friedman repeated-measures test,2,12,17.709219858156033,11,0.08857762917048187,0.8049645390070924,"[(3, 2)]"

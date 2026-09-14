@@ -1,0 +1,4 @@
+predictor,spearman_rank_rho,top1_agreement,top3_overlap,top5_overlap
+cka,0.09090909090909093,0,2,2
+grad_norm,0.4895104895104896,0,1,2
+squared_gradient_proxy,0.4895104895104896,0,1,2

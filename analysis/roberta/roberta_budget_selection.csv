@@ -1,0 +1,10 @@
+predictor,k,selected_layers,oracle_best_layer,oracle_best_rank,oracle_best_recovered,interpretation
+cka,1,L4,L10,9,0,top-k recovery only; no joint multi-layer utility observed
+cka,2,"L4,L3",L10,9,0,top-k recovery only; no joint multi-layer utility observed
+cka,3,"L4,L3,L8",L10,9,0,top-k recovery only; no joint multi-layer utility observed
+grad_norm,1,L12,L10,3,0,top-k recovery only; no joint multi-layer utility observed
+grad_norm,2,"L12,L11",L10,3,0,top-k recovery only; no joint multi-layer utility observed
+grad_norm,3,"L12,L11,L10",L10,3,1,top-k recovery only; no joint multi-layer utility observed
+squared_gradient_proxy,1,L12,L10,3,0,top-k recovery only; no joint multi-layer utility observed
+squared_gradient_proxy,2,"L12,L11",L10,3,0,top-k recovery only; no joint multi-layer utility observed
+squared_gradient_proxy,3,"L12,L11,L10",L10,3,1,top-k recovery only; no joint multi-layer utility observed
