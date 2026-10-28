@@ -24,14 +24,21 @@ def load_model(config: RobertaSweepConfig, seed: int):
 
 
 def inject_single_layer_lora(model, config: RobertaSweepConfig, layer: int):
-    if not 0 <= layer < config.num_layers:
-        raise ValueError(f"layer must be in [0, {config.num_layers - 1}], got {layer}")
+    return inject_lora_layers(model, config, [layer])
+
+
+def inject_lora_layers(model, config: RobertaSweepConfig, layers):
+    layers = list(layers)
+    if not layers or any(not 0 <= layer < config.num_layers for layer in layers):
+        raise ValueError(f"layers must be non-empty and in [0, {config.num_layers - 1}], got {layers}")
+    if len(set(layers)) != len(layers):
+        raise ValueError(f"layers must be unique, got {layers}")
     lora_config = LoraConfig(
         task_type=TaskType.SEQ_CLS,
         r=config.lora_rank,
         lora_alpha=config.lora_alpha,
         target_modules=list(config.target_modules),
-        layers_to_transform=[layer],
+        layers_to_transform=layers,
         layers_pattern=["layer"],
         modules_to_save=["classifier"],
     )

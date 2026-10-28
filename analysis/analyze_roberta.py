@@ -127,7 +127,10 @@ def analyze(rows, missing, extras, out):
     seed_values.columns = ["layer", "reported_layer"] + [f"utility_delta_seed{int(c)}" for c in seed_values.columns[2:]]
     layer = layer.merge(seed_values, on=["layer", "reported_layer"], how="left")
     layer.to_csv(out / "roberta_layer_summary.csv", index=False)
-    predictors = raw.groupby(["layer", "reported_layer"], as_index=False).agg(mean_utility_delta=("utility_delta", "mean"), cka=("cka", "first"), grad_norm=("grad_norm", "first"), squared_gradient_proxy=("squared_gradient_proxy", "first"))
+    # Predictors are computed once per seed-specific pre-LoRA model. Aggregate
+    # them at the layer level rather than treating repeated seed values as
+    # independent observations.
+    predictors = raw.groupby(["layer", "reported_layer"], as_index=False).agg(mean_utility_delta=("utility_delta", "mean"), cka=("cka", "mean"), grad_norm=("grad_norm", "mean"), squared_gradient_proxy=("squared_gradient_proxy", "mean"))
     predictors["utility_rank"] = rank_desc(predictors.mean_utility_delta)
     for name in ("cka", "grad_norm", "squared_gradient_proxy"): predictors[f"{name}_rank"] = rank_desc(predictors[name])
     predictor_rows = []
@@ -158,7 +161,8 @@ def analyze(rows, missing, extras, out):
     else: rq1_text = f"Insufficient complete seeds for Friedman test. Missing pairs: {missing}."
     (out / "roberta_rq1_statistics.txt").write_text(rq1_text + "\n")
     # Summary and leave-one-seed-out diagnostics.
-    lines = ["# RoBERTa analysis summary", "", "## Experimental validation", f"Valid locked-schema matrix rows: {len(raw)} / 36.", f"Missing pairs: {missing or 'none'}.", f"Extra non-matrix JSON artifacts preserved: {[p.name for p in extras] or 'none'}.", "", "## RQ1 result", rq1_text, f"Observed best mean-utility layer: L{oracle+1} ({predictors.mean_utility_delta.max():.6f}).", "", "## RQ2 result", "Predictor correlations and ranking diagnostics are in the CSV outputs; they are layer-level diagnostics (n=12), not independent seed-level predictive validation.", "", "## RQ3 result", "Budget analysis reports top-k recovery of the oracle-best single layer only. It does not measure joint adaptation of k layers.", "", "## Robustness observations", "Leave-one-seed-out summaries are reported below; predictors use the fixed 512-example probe with probe_seed=42, which is a limitation rather than a probe robustness test."]
+    completeness = "complete 36-run matrix" if not missing else f"incomplete matrix; missing {missing}"
+    lines = ["# RoBERTa analysis summary", "", "## Experimental validation", f"Valid locked-schema matrix rows: {len(raw)} / 36 ({completeness}).", f"Missing pairs: {missing or 'none'}.", f"Extra non-matrix JSON artifacts preserved: {[p.name for p in extras] or 'none'}.", "", "## RQ1 result", rq1_text, f"Observed best mean-utility layer: L{oracle+1} ({predictors.mean_utility_delta.max():.6f}).", "", "## RQ2 result", "Predictors are aggregated by layer across seeds before correlation and ranking analysis. These are layer-level diagnostics (n=12), not independent seed-level predictive validation.", "", "## RQ3 result", "Budget analysis reports top-k recovery of the oracle-best single layer only. It does not measure joint adaptation of k layers.", "", "## Robustness observations", "Leave-one-seed-out summaries are reported below; predictors use the fixed 512-example probe with probe_seed=42, which is a limitation rather than a probe robustness test."]
     for seed in (0, 1, 2):
         subset = raw[raw.seed != seed].groupby("layer").utility_delta.mean().sort_values(ascending=False)
         lines.append(f"- Leave out seed {seed}: top layer(s) {', '.join('L'+str(i+1) for i in subset.index[:3])}.")
@@ -168,7 +172,7 @@ def analyze(rows, missing, extras, out):
         for rank, (layer_id, value) in enumerate(subset.items(), 1):
             leave_rows.append({"held_out_seed": seed, "layer": layer_id, "reported_layer": f"L{layer_id+1}", "mean_utility_delta_remaining_seeds": value, "rank": rank})
     pd.DataFrame(leave_rows).to_csv(out / "roberta_leave_one_seed.csv", index=False)
-    lines += ["", "## Safe paper claims", "Placement utility varies across layers, subject to the incomplete L4/seed2 matrix cell. Predictor associations should be described as exploratory layer-level evidence.", "", "## Claims not supported", "Do not claim a complete 36-run matrix, causal predictor validity, independent generalization, or measured joint multi-layer LoRA utility until L4/seed2 is completed."]
+    lines += ["", "## Safe paper claims", "Placement utility varies across layers. Predictor associations should be described as exploratory layer-level evidence.", "", "## Claims not supported", "Do not claim causal predictor validity, independent generalization, or measured joint multi-layer LoRA utility."]
     (out / "roberta_analysis_summary.md").write_text("\n".join(lines) + "\n")
 
 

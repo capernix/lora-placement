@@ -1,0 +1,1379 @@
+{
+  "phase": "phase4",
+  "run_count": 21,
+  "gradient_selection_verified": [
+    9,
+    10,
+    11
+  ],
+  "runs": [
+    {
+      "run_id": "gradient_top3_r8_seed0",
+      "configuration_id": "gradient_top3_r8",
+      "layers": [
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 0,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "gradient_top3_r8_seed1",
+      "configuration_id": "gradient_top3_r8",
+      "layers": [
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 1,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "gradient_top3_r8_seed2",
+      "configuration_id": "gradient_top3_r8",
+      "layers": [
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 2,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "random_a_r8_seed0",
+      "configuration_id": "random_a_r8",
+      "layers": [
+        8,
+        9,
+        11
+      ],
+      "reported_layers": [
+        "L9",
+        "L10",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 0,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "random_a_r8_seed1",
+      "configuration_id": "random_a_r8",
+      "layers": [
+        8,
+        9,
+        11
+      ],
+      "reported_layers": [
+        "L9",
+        "L10",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 1,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "random_a_r8_seed2",
+      "configuration_id": "random_a_r8",
+      "layers": [
+        8,
+        9,
+        11
+      ],
+      "reported_layers": [
+        "L9",
+        "L10",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 2,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "random_b_r8_seed0",
+      "configuration_id": "random_b_r8",
+      "layers": [
+        0,
+        3,
+        9
+      ],
+      "reported_layers": [
+        "L1",
+        "L4",
+        "L10"
+      ],
+      "rank": 8,
+      "seed": 0,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "random_b_r8_seed1",
+      "configuration_id": "random_b_r8",
+      "layers": [
+        0,
+        3,
+        9
+      ],
+      "reported_layers": [
+        "L1",
+        "L4",
+        "L10"
+      ],
+      "rank": 8,
+      "seed": 1,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "random_b_r8_seed2",
+      "configuration_id": "random_b_r8",
+      "layers": [
+        0,
+        3,
+        9
+      ],
+      "reported_layers": [
+        "L1",
+        "L4",
+        "L10"
+      ],
+      "rank": 8,
+      "seed": 2,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "early_r8_seed0",
+      "configuration_id": "early_r8",
+      "layers": [
+        0,
+        1,
+        2
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "rank": 8,
+      "seed": 0,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "early_r8_seed1",
+      "configuration_id": "early_r8",
+      "layers": [
+        0,
+        1,
+        2
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "rank": 8,
+      "seed": 1,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "early_r8_seed2",
+      "configuration_id": "early_r8",
+      "layers": [
+        0,
+        1,
+        2
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "rank": 8,
+      "seed": 2,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "middle_r8_seed0",
+      "configuration_id": "middle_r8",
+      "layers": [
+        4,
+        5,
+        6
+      ],
+      "reported_layers": [
+        "L5",
+        "L6",
+        "L7"
+      ],
+      "rank": 8,
+      "seed": 0,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "middle_r8_seed1",
+      "configuration_id": "middle_r8",
+      "layers": [
+        4,
+        5,
+        6
+      ],
+      "reported_layers": [
+        "L5",
+        "L6",
+        "L7"
+      ],
+      "rank": 8,
+      "seed": 1,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "middle_r8_seed2",
+      "configuration_id": "middle_r8",
+      "layers": [
+        4,
+        5,
+        6
+      ],
+      "reported_layers": [
+        "L5",
+        "L6",
+        "L7"
+      ],
+      "rank": 8,
+      "seed": 2,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "uniform_all_r2_seed0",
+      "configuration_id": "uniform_all_r2",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6",
+        "L7",
+        "L8",
+        "L9",
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 2,
+      "seed": 0,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "uniform_all_r2_seed1",
+      "configuration_id": "uniform_all_r2",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6",
+        "L7",
+        "L8",
+        "L9",
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 2,
+      "seed": 1,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "uniform_all_r2_seed2",
+      "configuration_id": "uniform_all_r2",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6",
+        "L7",
+        "L8",
+        "L9",
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 2,
+      "seed": 2,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "all_layer_reference_r8_seed0",
+      "configuration_id": "all_layer_reference_r8",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6",
+        "L7",
+        "L8",
+        "L9",
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 0,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "all_layer_reference_r8_seed1",
+      "configuration_id": "all_layer_reference_r8",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6",
+        "L7",
+        "L8",
+        "L9",
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 1,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    },
+    {
+      "run_id": "all_layer_reference_r8_seed2",
+      "configuration_id": "all_layer_reference_r8",
+      "layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "reported_layers": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6",
+        "L7",
+        "L8",
+        "L9",
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "rank": 8,
+      "seed": 2,
+      "model": {
+        "name": "roberta-base",
+        "requested_revision": "main",
+        "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+        "tokenizer_revision": "main"
+      },
+      "dataset": {
+        "name": "nyu-mll/glue",
+        "config": "sst2",
+        "source_split": "train",
+        "evaluation_split": "phase4_holdout_10_percent",
+        "max_length": 128,
+        "holdout_fraction": 0.1,
+        "holdout_seed": 20261028,
+        "split_manifest": "phase4_split.json"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0003,
+        "weight_decay": 0.01,
+        "scheduler": null,
+        "warmup_steps": 0,
+        "batch_size": 32,
+        "epochs": 5,
+        "gradient_accumulation_steps": 1,
+        "checkpoint_rule": "final_epoch",
+        "training_seeds": [
+          0,
+          1,
+          2
+        ],
+        "precision": "fp32"
+      },
+      "lora": {
+        "target_modules": [
+          "query",
+          "value"
+        ],
+        "alpha": 16,
+        "bias": "none",
+        "classifier_trainable": true,
+        "backbone_frozen": true
+      },
+      "holdout_manifest": "phase4_split.json"
+    }
+  ]
+}

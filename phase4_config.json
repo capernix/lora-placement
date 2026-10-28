@@ -1,0 +1,62 @@
+{
+  "phase": "phase4",
+  "research_question": "Can a gradient-based layer-selection rule, derived from single-layer LoRA experiments, identify effective multi-layer adapter configurations under a matched parameter budget on SST-2?",
+  "model": {
+    "name": "roberta-base",
+    "requested_revision": "main",
+    "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "tokenizer_revision": "main"
+  },
+  "dataset": {
+    "name": "nyu-mll/glue",
+    "config": "sst2",
+    "source_split": "train",
+    "evaluation_split": "phase4_holdout_10_percent",
+    "max_length": 128,
+    "holdout_fraction": 0.1,
+    "holdout_seed": 20261028,
+    "split_manifest": "phase4_split.json"
+  },
+  "training": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "scheduler": null,
+    "warmup_steps": 0,
+    "batch_size": 32,
+    "epochs": 5,
+    "gradient_accumulation_steps": 1,
+    "checkpoint_rule": "final_epoch",
+    "training_seeds": [0, 1, 2],
+    "precision": "fp32"
+  },
+  "lora": {
+    "target_modules": ["query", "value"],
+    "alpha": 16,
+    "bias": "none",
+    "classifier_trainable": true,
+    "backbone_frozen": true
+  },
+  "layer_convention": {
+    "placement_unit": "complete roberta.encoder.layer[i]",
+    "zero_based_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "reported_labels": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12"]
+  },
+  "random_layer_sets": {
+    "generation_seed": 20261028,
+    "algorithm": "random.Random(seed).sample(range(12), 3), called twice and sorted",
+    "set_a_zero_based": [8, 9, 11],
+    "set_a_reported": ["L9", "L10", "L12"],
+    "set_b_zero_based": [0, 3, 9],
+    "set_b_reported": ["L1", "L4", "L10"]
+  },
+  "configurations": [
+    {"id": "gradient_top3_r8", "layers": [9, 10, 11], "reported_layers": ["L10", "L11", "L12"], "rank": 8},
+    {"id": "random_a_r8", "layers": [8, 9, 11], "reported_layers": ["L9", "L10", "L12"], "rank": 8},
+    {"id": "random_b_r8", "layers": [0, 3, 9], "reported_layers": ["L1", "L4", "L10"], "rank": 8},
+    {"id": "early_r8", "layers": [0, 1, 2], "reported_layers": ["L1", "L2", "L3"], "rank": 8},
+    {"id": "middle_r8", "layers": [4, 5, 6], "reported_layers": ["L5", "L6", "L7"], "rank": 8},
+    {"id": "uniform_all_r2", "layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "reported_layers": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12"], "rank": 2},
+    {"id": "all_layer_reference_r8", "layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "reported_layers": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12"], "rank": 8}
+  ]
+}
