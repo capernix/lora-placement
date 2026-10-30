@@ -1,0 +1,7 @@
+{
+  "status": "completed",
+  "run_id": "gradient_top3_r8_seed0",
+  "result": "result.json",
+  "predictions": "predictions.json",
+  "completed_at": 1793290626.1193933
+}

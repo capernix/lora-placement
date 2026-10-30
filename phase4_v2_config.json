@@ -1,0 +1,64 @@
+{
+  "protocol_version": "phase4_v2",
+  "model": {
+    "name": "roberta-base",
+    "requested_revision": "main",
+    "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "tokenizer_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b"
+  },
+  "dataset": {
+    "name": "nyu-mll/glue",
+    "config": "sst2",
+    "source_split": "train",
+    "expected_fingerprint": "e0f6962d602757cb",
+    "expected_source_size": 67349,
+    "max_length": 128
+  },
+  "legacy_quarantine": {
+    "phase4_split_manifest": "phase4_split.json",
+    "phase3_probe_seed": 42,
+    "phase3_probe_size": 512,
+    "phase3_probe_algorithm": "sorted(random.Random(seed).sample(range(source_size), probe_size))"
+  },
+  "split": {
+    "train_size": 47640,
+    "validation_size": 6000,
+    "selection_probe_size": 512,
+    "final_test_size": 6000,
+    "allocation_seed": 20261029,
+    "validation_seed": 20261030,
+    "probe_seed": 20261031,
+    "test_seed": 20261032
+  },
+  "selection": {
+    "scorer_seeds": [0, 1, 2],
+    "score": "l2_norm_of_full_probe_mean_loss_gradient_over_query_value_weights",
+    "tie_break": "lower_zero_based_layer",
+    "collision_policy": "fail_closed",
+    "random_seed": 20261028,
+    "random_algorithm": "sorted(random.Random(seed).sample(range(12), 3))",
+    "random_a_layers": [8, 9, 11]
+  },
+  "training": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "batch_size": 32,
+    "epochs": 5,
+    "precision": "fp32",
+    "checkpoint_rule": "final_epoch",
+    "training_seeds": [0, 1, 2],
+    "validation_usage": "diagnostic_only"
+  },
+  "lora": {
+    "target_modules": ["query", "value"],
+    "bias": "none",
+    "classifier_trainable": true,
+    "backbone_frozen": true
+  },
+  "primary_configurations": [
+    {"id": "gradient_top3_r8", "rank": 8, "alpha": 16, "layers_source": "selection_artifact", "expected_trainable_parameters": 665858},
+    {"id": "random_a_r8", "rank": 8, "alpha": 16, "layers": [8, 9, 11], "expected_trainable_parameters": 665858},
+    {"id": "uniform_all_r2", "rank": 2, "alpha": 4, "layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "expected_trainable_parameters": 665858}
+  ]
+}
