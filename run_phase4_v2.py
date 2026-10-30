@@ -263,6 +263,9 @@ def main():
     preflight.add_argument("--output-dir", type=Path, default=ROOT / "phase4_v2_preflight")
     preflight.add_argument("--skip-model-check", action="store_true")
 
+    prepare = subparsers.add_parser("prepare", help="download and verify the exact cached dataset/model")
+    prepare.add_argument("--config", type=Path, default=ROOT / "phase4_v2_config.json")
+
     core = subparsers.add_parser("core", help="run the nine primary experiments")
     core.add_argument("--config", type=Path, default=ROOT / "phase4_v2_config.json")
     core.add_argument("--artifacts-dir", type=Path, default=ROOT / "phase4_v2_preflight")
@@ -284,6 +287,10 @@ def main():
         from phase4_v2_preflight import run_preflight
         report = run_preflight(args.config, args.output_dir, model_check=not args.skip_model_check)
         raise SystemExit(0 if not report.get("error") else 1)
+    if args.command == "prepare":
+        from phase4_v2_preflight import prepare_cache
+        prepare_cache(args.config)
+        return
     if args.command == "core":
         run_core(args.config, args.artifacts_dir / "phase4_v2_split.json",
                  args.artifacts_dir / "phase4_v2_manifest.json", args.output_dir)

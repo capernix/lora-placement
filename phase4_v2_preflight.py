@@ -102,6 +102,57 @@ def _write_new_json(path, payload):
     path.write_text(json.dumps(payload, indent=2) + "\n")
 
 
+def prepare_cache(config_path=Path("phase4_v2_config.json")):
+    """Download the exact configured dataset/model artifacts and verify them."""
+    config = load_json(config_path)
+    for variable in ("HF_DATASETS_OFFLINE", "HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE"):
+        os.environ.pop(variable, None)
+
+    from datasets import load_dataset
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+    dataset = load_dataset(config["dataset"]["name"], config["dataset"]["config"])
+    train = dataset[config["dataset"]["source_split"]]
+    fingerprint = getattr(train, "_fingerprint", None)
+    source_size = len(train)
+    if fingerprint != config["dataset"]["expected_fingerprint"]:
+        raise RuntimeError(
+            f"dataset fingerprint mismatch: got {fingerprint}, "
+            f"expected {config['dataset']['expected_fingerprint']}"
+        )
+    if source_size != config["dataset"]["expected_source_size"]:
+        raise RuntimeError(
+            f"dataset source size mismatch: got {source_size}, "
+            f"expected {config['dataset']['expected_source_size']}"
+        )
+
+    tokenizer = AutoTokenizer.from_pretrained(
+        config["model"]["name"], revision=config["model"]["tokenizer_revision"],
+        local_files_only=False,
+    )
+    model = AutoModelForSequenceClassification.from_pretrained(
+        config["model"]["name"], revision=config["model"]["resolved_revision"],
+        num_labels=2, local_files_only=False,
+    )
+    resolved_model_revision = getattr(model.config, "_commit_hash", None)
+    if resolved_model_revision != config["model"]["resolved_revision"]:
+        raise RuntimeError(
+            f"model revision mismatch: got {resolved_model_revision}, "
+            f"expected {config['model']['resolved_revision']}"
+        )
+    del tokenizer, model
+    result = {
+        "dataset": f"{config['dataset']['name']}/{config['dataset']['config']}",
+        "dataset_fingerprint": fingerprint,
+        "dataset_source_size": source_size,
+        "model": config["model"]["name"],
+        "model_revision": resolved_model_revision,
+        "status": "PASS",
+    }
+    print(json.dumps(result, indent=2))
+    return result
+
+
 def run_preflight(config_path=Path("phase4_v2_config.json"), output_dir=Path("phase4_v2_preflight"), model_check=True):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -186,10 +237,14 @@ def run_preflight(config_path=Path("phase4_v2_config.json"), output_dir=Path("ph
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument("command", nargs="?", choices=("prepare", "preflight"), default="preflight")
     parser.add_argument("--config", type=Path, default=Path("phase4_v2_config.json"))
     parser.add_argument("--output-dir", type=Path, default=Path("phase4_v2_preflight"))
     parser.add_argument("--skip-model-check", action="store_true")
     args = parser.parse_args()
+    if args.command == "prepare":
+        prepare_cache(args.config)
+        return
     report = run_preflight(args.config, args.output_dir, model_check=not args.skip_model_check)
     raise SystemExit(0 if all(value in {"PASS", "NOT RUN"} for value in report["status"].values()) and not report.get("error") else 1)
 
