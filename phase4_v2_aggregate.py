@@ -14,6 +14,9 @@ from phase4_v2_io import read_json, run_paths
 def load_completed(output_dir, manifest):
     expected = {run["run_id"]: run for run in manifest["runs"]}
     root = Path(output_dir)
+    strict_provenance = manifest.get("manifest_type") == "phase4_v2_concentration"
+    expected_model_revision = manifest.get("model", {}).get("resolved_revision")
+    expected_dataset_fingerprint = manifest.get("dataset", {}).get("expected_fingerprint")
     records = []
     if not root.exists():
         raise ValueError(f"missing output directory: {root}")
@@ -36,12 +39,24 @@ def load_completed(output_dir, manifest):
             raise ValueError(f"seed mismatch: {run_id}")
         if result.get("manifest_sha256") != manifest.get("manifest_sha256"):
             raise ValueError(f"manifest hash mismatch: {run_id}")
+        if strict_provenance and result.get("model", {}).get("resolved_revision", result.get("model", {}).get("resolved_model_revision")) != expected_model_revision:
+            raise ValueError(f"model revision mismatch: {run_id}")
+        if strict_provenance and result.get("dataset", {}).get("expected_fingerprint", result.get("dataset_fingerprint")) != expected_dataset_fingerprint:
+            raise ValueError(f"dataset fingerprint mismatch: {run_id}")
+        if strict_provenance and result.get("split_manifest_sha256") != manifest.get("split_manifest_sha256"):
+            raise ValueError(f"split hash mismatch: {run_id}")
         if result.get("configuration", {}).get("layers") != expected_run["layers"]:
             raise ValueError(f"layer mismatch: {run_id}")
         if result.get("configuration", {}).get("rank") != expected_run["rank"]:
             raise ValueError(f"rank mismatch: {run_id}")
         if result.get("configuration", {}).get("alpha") != expected_run["alpha"]:
             raise ValueError(f"alpha mismatch: {run_id}")
+        expected_reported = expected_run.get("reported_layers")
+        if expected_reported is not None and result.get("configuration", {}).get("reported_layers") != expected_reported:
+            raise ValueError(f"reported layer mismatch: {run_id}")
+        expected_definition_hash = expected_run.get("configuration_sha256")
+        if expected_definition_hash is not None and result.get("configuration", {}).get("configuration_sha256") != expected_definition_hash:
+            raise ValueError(f"configuration definition mismatch: {run_id}")
         if result.get("n_trainable_params") != expected_run["expected_trainable_parameters"]:
             raise ValueError(f"parameter count mismatch: {run_id}")
         records.append(result)
@@ -67,6 +82,7 @@ def write_aggregate(records, output_dir):
         metrics = record.get("final_test_metrics", record.get("validation_metrics", record.get("holdout_metrics", {})))
         rows.append({"run_id": record["run_id"], "configuration_id": record["configuration"]["id"],
                      "seed": record["seed"], "layers": ",".join(str(x) for x in record["configuration"]["layers"]),
+                     "reported_layers": ",".join(record["configuration"].get("reported_layers", [])),
                      "rank": record["configuration"]["rank"], "alpha": record["configuration"]["alpha"],
                      "n_trainable_params": record["n_trainable_params"],
                      "validation_accuracy": metrics.get("accuracy"), "validation_loss": metrics.get("loss"),
@@ -87,6 +103,8 @@ def write_aggregate(records, output_dir):
             values = [float(row[field]) for row in group if row[field] is not None]
             summary[f"mean_{field}"] = statistics.mean(values) if values else None
             summary[f"std_{field}"] = statistics.stdev(values) if len(values) > 1 else 0.0 if values else None
+            summary[f"min_{field}"] = min(values) if values else None
+            summary[f"max_{field}"] = max(values) if values else None
         summaries.append(summary)
     with (output_dir / "phase4_v2_summary.csv").open("w", newline="") as handle:
         fields = list(summaries[0]) if summaries else ["configuration_id"]

@@ -62,6 +62,33 @@ def build_manifest(config, split, selection):
     return manifest
 
 
+def build_concentration_manifest(config, split, selection):
+    """Build the additive 18-run manifest from frozen Phase 4 v2 artifacts."""
+    validate_selection(selection, config, split)
+    entries = config["concentration_configurations"]
+    if len(entries) != 6:
+        raise ValueError("concentration manifest must contain six configurations")
+    runs = []
+    for entry in entries:
+        definition = dict(entry)
+        definition["configuration_sha256"] = sha256_payload(entry)
+        for seed in config["training"]["training_seeds"]:
+            runs.append({"run_id": f"{entry['id']}_seed{seed}", "configuration_id": entry["id"],
+                         "layers": entry["layers"], "reported_layers": entry["reported_layers"],
+                         "rank": entry["rank"], "alpha": entry["alpha"], "seed": seed,
+                         "expected_trainable_parameters": entry["expected_trainable_parameters"],
+                         "configuration_sha256": definition["configuration_sha256"]})
+    manifest = {
+        "protocol_version": config["protocol_version"], "manifest_type": "phase4_v2_concentration",
+        "selection_artifact_sha256": selection["content_sha256"],
+        "split_manifest_sha256": split["manifest_sha256"],
+        "model": config["model"], "dataset": config["dataset"], "training": config["training"],
+        "lora": config["lora"], "configurations": entries, "run_count": len(runs), "runs": runs,
+    }
+    manifest["manifest_sha256"] = sha256_payload(manifest)
+    return manifest
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, default=Path("phase4_v2_config.json"))

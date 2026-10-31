@@ -14,6 +14,8 @@ from pathlib import Path
 from phase4_v2_io import (CompletedRunError, IncompleteRunError, atomic_json,
                           mark_failed, reserve_run, sha256_payload,
                           write_completed_artifacts)
+from phase4_v2_manifest import build_concentration_manifest
+from phase4_v2_preflight import validate_concentration_manifest
 
 
 ROOT = Path(__file__).resolve().parent
@@ -136,6 +138,15 @@ def resolve_run_entry(manifest, configuration_id, seed):
     raise ValueError("manifest must contain runs or pairs")
 
 
+def validate_requested_configurations(manifest, requested):
+    available = {entry["id"] for entry in manifest.get("configurations", ())}
+    unknown = sorted(set(requested) - available)
+    if unknown:
+        raise ValueError(f"unknown concentration configuration(s): {', '.join(unknown)}")
+    if len(set(requested)) != len(requested):
+        raise ValueError("duplicate concentration configuration requested")
+
+
 def run(config, split_path, manifest_path, configuration_id, seed, output_dir):
     import torch
     from transformers import DataCollatorWithPadding
@@ -196,8 +207,12 @@ def run(config, split_path, manifest_path, configuration_id, seed, output_dir):
         record = {
             "status": "artifact_ready", "protocol_version": manifest["protocol_version"], "run_id": run_entry["run_id"],
                 "configuration": {"id": configuration_id, "layers": run_entry["layers"],
-                                   "rank": run_entry["rank"], "alpha": run_entry["alpha"]},
+                                   "reported_layers": run_entry.get("reported_layers", [f"L{x + 1}" for x in run_entry["layers"]]),
+                                   "rank": run_entry["rank"], "alpha": run_entry["alpha"],
+                                   "configuration_sha256": run_entry.get("configuration_sha256")},
+            "model": manifest["model"], "dataset": manifest["dataset"],
             "seed": seed, "manifest_sha256": manifest["manifest_sha256"],
+            "selection_artifact_sha256": manifest.get("selection_artifact_sha256"),
             "split_manifest_sha256": split["manifest_sha256"], "dataset_fingerprint": split["dataset_fingerprint"],
             "evaluation_mode": "validation_only",
             "train_size": len(pools["train"]), "validation_size": len(pools["validation"]),
@@ -240,6 +255,36 @@ def run_core(config_path, split_path, manifest_path, output_dir):
     return records
 
 
+def run_concentration(config_path, artifacts_dir, requested, output_dir):
+    config = load_json(config_path)
+    split_path = Path(artifacts_dir) / "phase4_v2_split.json"
+    selection_path = Path(artifacts_dir) / "phase4_v2_selection.json"
+    manifest_path = Path(artifacts_dir) / "phase4_v2_concentration_manifest.json"
+    split, selection = load_json(split_path), load_json(selection_path)
+    if manifest_path.exists():
+        manifest = load_json(manifest_path)
+    else:
+        manifest = build_concentration_manifest(config, split, selection)
+        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
+    validate_concentration_manifest(manifest, config, split, selection)
+    validate_requested_configurations(manifest, requested)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_manifest = output_dir / "phase4_v2_concentration_manifest.json"
+    if output_manifest.exists():
+        if load_json(output_manifest).get("manifest_sha256") != manifest["manifest_sha256"]:
+            raise ValueError(f"concentration output manifest collision: {output_manifest}")
+    else:
+        output_manifest.write_text(json.dumps(manifest, indent=2) + "\n")
+    selected_runs = [entry for entry in manifest["runs"] if entry["configuration_id"] in requested]
+    for entry in selected_runs:
+        try:
+            run(config, split_path, manifest_path, entry["configuration_id"], entry["seed"], output_dir)
+        except IncompleteRunError:
+            raise
+        except CompletedRunError:
+            print(f"Skipping completed run: {entry['run_id']}", flush=True)
+
+
 def run_pairs(config_path, split_path, manifest_path, output_dir):
     config = load_json(config_path)
     manifest = load_json(manifest_path)
@@ -276,6 +321,12 @@ def main():
     pairs.add_argument("--artifacts-dir", type=Path, default=ROOT / "phase4_v2_preflight")
     pairs.add_argument("--output-dir", type=Path, default=ROOT / "results" / "phase4_v2_pairs")
 
+    concentration = subparsers.add_parser("concentration", help="run selected concentration configurations")
+    concentration.add_argument("--config", nargs="+", required=True, metavar="CONFIGURATION")
+    concentration.add_argument("--artifacts-dir", type=Path, default=ROOT / "phase4_v2_preflight")
+    concentration.add_argument("--config-file", type=Path, default=ROOT / "phase4_v2_config.json")
+    concentration.add_argument("--output-dir", type=Path, default=ROOT / "results" / "phase4_v2_concentration")
+
     aggregate = subparsers.add_parser("aggregate", help="aggregate all completed primary runs")
     aggregate.add_argument("--artifacts-dir", type=Path, default=ROOT / "phase4_v2_preflight")
     aggregate.add_argument("--input-dir", type=Path, default=ROOT / "results" / "phase4_v2")
@@ -307,8 +358,17 @@ def main():
         pair_manifest_path.write_text(json.dumps(pair_manifest, indent=2) + "\n")
         run_pairs(args.config, args.artifacts_dir / "phase4_v2_split.json", pair_manifest_path, args.output_dir)
         return
+    if args.command == "concentration":
+        run_concentration(args.config_file, args.artifacts_dir, args.config, args.output_dir)
+        return
     from phase4_v2_aggregate import aggregate_from_manifest
-    manifest_path = args.manifest or (args.artifacts_dir / "phase4_v2_manifest.json")
+    if args.manifest:
+        manifest_path = args.manifest
+    elif args.input_dir.name == "phase4_v2_concentration":
+        candidate = args.input_dir / "phase4_v2_concentration_manifest.json"
+        manifest_path = candidate if candidate.exists() else (args.artifacts_dir / "phase4_v2_concentration_manifest.json")
+    else:
+        manifest_path = args.artifacts_dir / "phase4_v2_manifest.json"
     aggregate_from_manifest(args.input_dir, manifest_path, args.output_dir)
 
 

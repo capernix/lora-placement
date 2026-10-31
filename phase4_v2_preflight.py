@@ -95,6 +95,34 @@ def validate_final_manifest(manifest, config, split, selection):
             raise ValueError(f"run configuration does not match manifest entry: {run['run_id']}")
 
 
+def validate_concentration_manifest(manifest, config, split, selection):
+    if manifest.get("manifest_type") != "phase4_v2_concentration":
+        raise ValueError("not a concentration manifest")
+    if manifest.get("split_manifest_sha256") != split.get("manifest_sha256"):
+        raise ValueError("concentration split hash mismatch")
+    if manifest.get("selection_artifact_sha256") != selection.get("content_sha256"):
+        raise ValueError("concentration selection hash mismatch")
+    content = dict(manifest)
+    recorded = content.pop("manifest_sha256", None)
+    if recorded is None or sha256_payload(content) != recorded:
+        raise ValueError("concentration manifest hash mismatch")
+    expected = {entry["id"]: entry for entry in config["concentration_configurations"]}
+    actual = {entry["id"]: entry for entry in manifest.get("configurations", ())}
+    if set(actual) != set(expected) or manifest.get("run_count") != 18 or len(manifest.get("runs", ())) != 18:
+        raise ValueError("concentration manifest must contain exactly 18 runs")
+    for name, entry in expected.items():
+        if actual[name] != entry:
+            raise ValueError(f"concentration configuration mismatch: {name}")
+        if entry["expected_trainable_parameters"] != 665858:
+            raise ValueError(f"concentration parameter budget mismatch: {name}")
+    for run in manifest["runs"]:
+        entry = expected.get(run["configuration_id"])
+        if entry is None or run["seed"] not in {0, 1, 2}:
+            raise ValueError(f"invalid concentration run: {run.get('run_id')}")
+        if run["layers"] != entry["layers"] or run["reported_layers"] != entry["reported_layers"] or run["rank"] != entry["rank"] or run["alpha"] != entry["alpha"]:
+            raise ValueError(f"concentration run definition mismatch: {run['run_id']}")
+
+
 def _write_new_json(path, payload):
     path = Path(path)
     if path.exists():

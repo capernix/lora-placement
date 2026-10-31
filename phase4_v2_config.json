@@ -60,5 +60,13 @@
     {"id": "gradient_top3_r8", "rank": 8, "alpha": 16, "layers_source": "selection_artifact", "expected_trainable_parameters": 665858},
     {"id": "random_a_r8", "rank": 8, "alpha": 16, "layers": [8, 9, 11], "expected_trainable_parameters": 665858},
     {"id": "uniform_all_r2", "rank": 2, "alpha": 4, "layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "expected_trainable_parameters": 665858}
+  ],
+  "concentration_configurations": [
+    {"id": "utility_top1_r24", "layers": [9], "reported_layers": ["L10"], "rank": 24, "alpha": 48, "placement_source": "phase3_utility_ranking", "expected_trainable_parameters": 665858},
+    {"id": "utility_top2_r12", "layers": [9, 7], "reported_layers": ["L10", "L8"], "rank": 12, "alpha": 24, "placement_source": "phase3_utility_ranking", "expected_trainable_parameters": 665858},
+    {"id": "utility_top3_r8", "layers": [9, 7, 6], "reported_layers": ["L10", "L8", "L7"], "rank": 8, "alpha": 16, "placement_source": "phase3_utility_ranking", "expected_trainable_parameters": 665858},
+    {"id": "utility_top4_r6", "layers": [9, 7, 6, 5], "reported_layers": ["L10", "L8", "L7", "L6"], "rank": 6, "alpha": 12, "placement_source": "phase3_utility_ranking", "expected_trainable_parameters": 665858},
+    {"id": "utility_top6_r4", "layers": [9, 7, 6, 5, 10, 8], "reported_layers": ["L10", "L8", "L7", "L6", "L11", "L9"], "rank": 4, "alpha": 8, "placement_source": "phase3_utility_ranking", "expected_trainable_parameters": 665858},
+    {"id": "early3_r8", "layers": [0, 1, 2], "reported_layers": ["L1", "L2", "L3"], "rank": 8, "alpha": 16, "placement_source": "phase3_utility_ranking", "expected_trainable_parameters": 665858}
   ]
 }
