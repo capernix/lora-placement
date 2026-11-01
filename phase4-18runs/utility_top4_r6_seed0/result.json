@@ -1,0 +1,92 @@
+{
+  "status": "artifact_ready",
+  "protocol_version": "phase4_v2",
+  "run_id": "utility_top4_r6_seed0",
+  "configuration": {
+    "id": "utility_top4_r6",
+    "layers": [
+      9,
+      7,
+      6,
+      5
+    ],
+    "reported_layers": [
+      "L10",
+      "L8",
+      "L7",
+      "L6"
+    ],
+    "rank": 6,
+    "alpha": 12,
+    "configuration_sha256": "437276d2e3c9b635081a5d7fd272824b3f9c6b6169e9424cb2dd9918b4c6ee08"
+  },
+  "model": {
+    "name": "roberta-base",
+    "requested_revision": "main",
+    "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "tokenizer_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b"
+  },
+  "dataset": {
+    "name": "nyu-mll/glue",
+    "config": "sst2",
+    "source_split": "train",
+    "expected_fingerprint": "e0f6962d602757cb",
+    "expected_source_size": 67349,
+    "max_length": 128
+  },
+  "seed": 0,
+  "manifest_sha256": "6593c38453bbf6b063f9c2bbd8013f33f45bd8d21d2da48f150b653f2adea8bd",
+  "selection_artifact_sha256": "0772a3b6515be96ca8c6ac6b5b088beded2f60e4cea1e951ff2f45430532a334",
+  "split_manifest_sha256": "bb3db736dead8440aa74c4863e61a1646ddf4f5fc3c7c5d5da60813ad70a3fae",
+  "dataset_fingerprint": "e0f6962d602757cb",
+  "evaluation_mode": "validation_only",
+  "train_size": 47640,
+  "validation_size": 6000,
+  "n_trainable_params": 665858,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "train_loss": 0.30375061045165425
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.2512610753277187
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.23013420009893293
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.22167067785507286
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.20892903339852814
+    }
+  ],
+  "validation_metrics": {
+    "accuracy": 0.925,
+    "loss": 0.18928976751367252,
+    "correct": 5550,
+    "n": 6000
+  },
+  "frozen_val_accuracy": 0.8445000052452087,
+  "utility": 0.0804999947547913,
+  "checkpoint_rule": "final_epoch",
+  "checkpoint_path": "/kaggle/working/lora-placement/results/phase4_v2_concentration/utility_top4_r6_seed0/checkpoint",
+  "runtime_sec": 926.5148367881775,
+  "checkpoint_sha256": "c67e9192df3f2dcab6c99031195c403e4eb6cb39485fa692dd6ca1c7eefb0bb8",
+  "runtime_metadata": {
+    "python": "3.13.15",
+    "software": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.16.1",
+      "peft": "0.20.0",
+      "datasets": "5.0.1",
+      "tokenizers": "0.23.2",
+      "accelerate": "1.14.0",
+      "numpy": "2.1.3"
+    }
+  }
+}

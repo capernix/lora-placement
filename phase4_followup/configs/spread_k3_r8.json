@@ -1,0 +1,11 @@
+{
+  "id": "spread_k3_r8",
+  "layers": [1, 6, 11],
+  "reported_layers": ["L2", "L7", "L12"],
+  "rank": 8,
+  "alpha": 16,
+  "seeds": [0, 1, 2],
+  "placement_source": "phase4_followup_depth_coverage",
+  "expected_adapter_parameters": 73728,
+  "expected_trainable_parameters": 665858
+}

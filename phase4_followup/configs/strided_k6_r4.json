@@ -1,0 +1,11 @@
+{
+  "id": "strided_k6_r4",
+  "layers": [1, 3, 5, 7, 9, 11],
+  "reported_layers": ["L2", "L4", "L6", "L8", "L10", "L12"],
+  "rank": 4,
+  "alpha": 8,
+  "seeds": [0, 1, 2],
+  "placement_source": "phase4_followup_depth_coverage",
+  "expected_adapter_parameters": 73728,
+  "expected_trainable_parameters": 665858
+}

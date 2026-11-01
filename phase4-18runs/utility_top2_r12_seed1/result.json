@@ -1,0 +1,88 @@
+{
+  "status": "artifact_ready",
+  "protocol_version": "phase4_v2",
+  "run_id": "utility_top2_r12_seed1",
+  "configuration": {
+    "id": "utility_top2_r12",
+    "layers": [
+      9,
+      7
+    ],
+    "reported_layers": [
+      "L10",
+      "L8"
+    ],
+    "rank": 12,
+    "alpha": 24,
+    "configuration_sha256": "7f21d28a4316fe62790136028354da7169fde6e3a560b558067ceb0cae2c6304"
+  },
+  "model": {
+    "name": "roberta-base",
+    "requested_revision": "main",
+    "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "tokenizer_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b"
+  },
+  "dataset": {
+    "name": "nyu-mll/glue",
+    "config": "sst2",
+    "source_split": "train",
+    "expected_fingerprint": "e0f6962d602757cb",
+    "expected_source_size": 67349,
+    "max_length": 128
+  },
+  "seed": 1,
+  "manifest_sha256": "6593c38453bbf6b063f9c2bbd8013f33f45bd8d21d2da48f150b653f2adea8bd",
+  "selection_artifact_sha256": "0772a3b6515be96ca8c6ac6b5b088beded2f60e4cea1e951ff2f45430532a334",
+  "split_manifest_sha256": "bb3db736dead8440aa74c4863e61a1646ddf4f5fc3c7c5d5da60813ad70a3fae",
+  "dataset_fingerprint": "e0f6962d602757cb",
+  "evaluation_mode": "validation_only",
+  "train_size": 47640,
+  "validation_size": 6000,
+  "n_trainable_params": 665858,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "train_loss": 0.3141023644622287
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.2631675523009048
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.24836640999058932
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.23989287666119416
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.22715360294060982
+    }
+  ],
+  "validation_metrics": {
+    "accuracy": 0.916,
+    "loss": 0.2120398134191831,
+    "correct": 5496,
+    "n": 6000
+  },
+  "frozen_val_accuracy": 0.8445000052452087,
+  "utility": 0.0714999947547913,
+  "checkpoint_rule": "final_epoch",
+  "checkpoint_path": "/kaggle/working/lora-placement/results/phase4_v2_concentration/utility_top2_r12_seed1/checkpoint",
+  "runtime_sec": 837.4938154220581,
+  "checkpoint_sha256": "774e3692af80b9b8813cff953fc00bc5455767783eb35e64c34094f6c9fd1fed",
+  "runtime_metadata": {
+    "python": "3.13.15",
+    "software": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.16.1",
+      "peft": "0.20.0",
+      "datasets": "5.0.1",
+      "tokenizers": "0.23.2",
+      "accelerate": "1.14.0",
+      "numpy": "2.1.3"
+    }
+  }
+}

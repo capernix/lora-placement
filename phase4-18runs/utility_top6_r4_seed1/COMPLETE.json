@@ -1,0 +1,8 @@
+{
+  "protocol_version": "phase4_v2",
+  "status": "completed",
+  "run_id": "utility_top6_r4_seed1",
+  "result": "result.json",
+  "predictions": "predictions.json",
+  "completed_at": 1793543408.7832017
+}

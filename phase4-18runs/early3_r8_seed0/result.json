@@ -1,0 +1,90 @@
+{
+  "status": "artifact_ready",
+  "protocol_version": "phase4_v2",
+  "run_id": "early3_r8_seed0",
+  "configuration": {
+    "id": "early3_r8",
+    "layers": [
+      0,
+      1,
+      2
+    ],
+    "reported_layers": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "rank": 8,
+    "alpha": 16,
+    "configuration_sha256": "76d52e2748ba5bf9c0ecd0262289a15d9a7b9342bbef8a7f50ef24427ab83ec0"
+  },
+  "model": {
+    "name": "roberta-base",
+    "requested_revision": "main",
+    "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "tokenizer_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b"
+  },
+  "dataset": {
+    "name": "nyu-mll/glue",
+    "config": "sst2",
+    "source_split": "train",
+    "expected_fingerprint": "e0f6962d602757cb",
+    "expected_source_size": 67349,
+    "max_length": 128
+  },
+  "seed": 0,
+  "manifest_sha256": "6593c38453bbf6b063f9c2bbd8013f33f45bd8d21d2da48f150b653f2adea8bd",
+  "selection_artifact_sha256": "0772a3b6515be96ca8c6ac6b5b088beded2f60e4cea1e951ff2f45430532a334",
+  "split_manifest_sha256": "bb3db736dead8440aa74c4863e61a1646ddf4f5fc3c7c5d5da60813ad70a3fae",
+  "dataset_fingerprint": "e0f6962d602757cb",
+  "evaluation_mode": "validation_only",
+  "train_size": 47640,
+  "validation_size": 6000,
+  "n_trainable_params": 665858,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "train_loss": 0.3989242685581835
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.29825970587562256
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.2668225254735258
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.25289534366901534
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.2417311821736577
+    }
+  ],
+  "validation_metrics": {
+    "accuracy": 0.9221666666666667,
+    "loss": 0.2031852919459343,
+    "correct": 5533,
+    "n": 6000
+  },
+  "frozen_val_accuracy": 0.8445000052452087,
+  "utility": 0.07766666142145795,
+  "checkpoint_rule": "final_epoch",
+  "checkpoint_path": "/kaggle/working/lora-placement/results/phase4_v2_concentration/early3_r8_seed0/checkpoint",
+  "runtime_sec": 1229.3119733333588,
+  "checkpoint_sha256": "c10875ba876abaf3a944af7158975e7fdbca53d901b0a7e01a5368069f3c4181",
+  "runtime_metadata": {
+    "python": "3.13.15",
+    "software": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.16.1",
+      "peft": "0.20.0",
+      "datasets": "5.0.1",
+      "tokenizers": "0.23.2",
+      "accelerate": "1.14.0",
+      "numpy": "2.1.3"
+    }
+  }
+}

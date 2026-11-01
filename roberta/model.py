@@ -51,6 +51,30 @@ def trainable_parameters(model):
             if parameter.requires_grad]
 
 
+def lora_adapter_parameters(model):
+    """Return only PEFT LoRA A/B parameters, excluding the classifier head."""
+    return [(name, parameter) for name, parameter in model.named_parameters()
+            if parameter.requires_grad and ".lora_" in name]
+
+
+def resolved_lora_target_names(model, layers, target_modules=("query", "value")):
+    """Return the concrete module paths receiving LoRA in selected blocks."""
+    wanted = {int(layer) for layer in layers}
+    names = []
+    for name, module in model.named_modules():
+        if not any(name.endswith(f".{target}") for target in target_modules):
+            continue
+        parts = name.split(".")
+        try:
+            layer_position = parts.index("layer")
+            layer = int(parts[layer_position + 1])
+        except (ValueError, IndexError):
+            continue
+        if layer in wanted:
+            names.append(name)
+    return sorted(names)
+
+
 def register_frozen_prefix_detach(model, layer: int):
     """Detach the input to a selected block whose prefix is frozen.
 

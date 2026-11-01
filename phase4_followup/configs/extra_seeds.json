@@ -1,0 +1,26 @@
+{
+  "configurations": [
+    {
+      "id": "early3_r8",
+      "layers": [0, 1, 2],
+      "reported_layers": ["L1", "L2", "L3"],
+      "rank": 8,
+      "alpha": 16,
+      "seeds": [3, 4],
+      "placement_source": "phase3_utility_ranking",
+      "expected_adapter_parameters": 73728,
+      "expected_trainable_parameters": 665858
+    },
+    {
+      "id": "utility_top3_r8",
+      "layers": [9, 7, 6],
+      "reported_layers": ["L10", "L8", "L7"],
+      "rank": 8,
+      "alpha": 16,
+      "seeds": [3, 4],
+      "placement_source": "phase3_utility_ranking",
+      "expected_adapter_parameters": 73728,
+      "expected_trainable_parameters": 665858
+    }
+  ]
+}

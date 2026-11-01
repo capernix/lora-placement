@@ -1,0 +1,90 @@
+{
+  "status": "artifact_ready",
+  "protocol_version": "phase4_v2",
+  "run_id": "utility_top3_r8_seed2",
+  "configuration": {
+    "id": "utility_top3_r8",
+    "layers": [
+      9,
+      7,
+      6
+    ],
+    "reported_layers": [
+      "L10",
+      "L8",
+      "L7"
+    ],
+    "rank": 8,
+    "alpha": 16,
+    "configuration_sha256": "5ad694c4f906d482d6bd0b283f0679359880643758a84a2e4bf4d84aaac87d1d"
+  },
+  "model": {
+    "name": "roberta-base",
+    "requested_revision": "main",
+    "resolved_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "tokenizer_revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b"
+  },
+  "dataset": {
+    "name": "nyu-mll/glue",
+    "config": "sst2",
+    "source_split": "train",
+    "expected_fingerprint": "e0f6962d602757cb",
+    "expected_source_size": 67349,
+    "max_length": 128
+  },
+  "seed": 2,
+  "manifest_sha256": "6593c38453bbf6b063f9c2bbd8013f33f45bd8d21d2da48f150b653f2adea8bd",
+  "selection_artifact_sha256": "0772a3b6515be96ca8c6ac6b5b088beded2f60e4cea1e951ff2f45430532a334",
+  "split_manifest_sha256": "bb3db736dead8440aa74c4863e61a1646ddf4f5fc3c7c5d5da60813ad70a3fae",
+  "dataset_fingerprint": "e0f6962d602757cb",
+  "evaluation_mode": "validation_only",
+  "train_size": 47640,
+  "validation_size": 6000,
+  "n_trainable_params": 665858,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "train_loss": 0.3087480141874325
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.2561979836070367
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.24112827805137554
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.2280289404763583
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.21573658535127174
+    }
+  ],
+  "validation_metrics": {
+    "accuracy": 0.9228333333333333,
+    "loss": 0.19204181216160457,
+    "correct": 5537,
+    "n": 6000
+  },
+  "frozen_val_accuracy": 0.8433333039283752,
+  "utility": 0.07950002940495804,
+  "checkpoint_rule": "final_epoch",
+  "checkpoint_path": "/kaggle/working/lora-placement/results/phase4_v2_concentration/utility_top3_r8_seed2/checkpoint",
+  "runtime_sec": 877.7903645038605,
+  "checkpoint_sha256": "4f2aaf229dfdbe5b658fb95c79ed1c79a7b56d0266ea7b19cf987776d6ca224c",
+  "runtime_metadata": {
+    "python": "3.13.15",
+    "software": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.16.1",
+      "peft": "0.20.0",
+      "datasets": "5.0.1",
+      "tokenizers": "0.23.2",
+      "accelerate": "1.14.0",
+      "numpy": "2.1.3"
+    }
+  }
+}

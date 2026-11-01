@@ -122,7 +122,24 @@ def runtime_metadata():
             packages[name] = version(name)
         except Exception:
             packages[name] = None
-    return {"python": platform.python_version(), "software": packages}
+    metadata = {"python": platform.python_version(), "software": packages}
+    try:
+        import torch
+        cuda_available = torch.cuda.is_available()
+        metadata.update({
+            "pytorch_cuda_version": torch.version.cuda,
+            "cuda_version": torch.version.cuda if cuda_available else None,
+            "gpu_name": torch.cuda.get_device_name(0) if cuda_available else None,
+            "gpu_memory_bytes": (torch.cuda.get_device_properties(0).total_memory
+                                  if cuda_available else None),
+            "device": "cuda" if cuda_available else "cpu",
+            "precision_dtype": "fp32",
+        })
+    except Exception:
+        metadata.update({"pytorch_cuda_version": None, "cuda_version": None,
+                         "gpu_name": None, "gpu_memory_bytes": None,
+                         "device": None, "precision_dtype": "fp32"})
+    return metadata
 
 
 def resolve_run_entry(manifest, configuration_id, seed):
@@ -151,7 +168,8 @@ def run(config, split_path, manifest_path, configuration_id, seed, output_dir):
     import torch
     from transformers import DataCollatorWithPadding
     from phase4_v2_io import run_paths
-    from roberta.model import (inject_lora_layers, load_model, register_frozen_prefix_detach,
+    from roberta.model import (inject_lora_layers, load_model, lora_adapter_parameters,
+                               register_frozen_prefix_detach, resolved_lora_target_names,
                                trainable_parameters)
     manifest = load_json(manifest_path)
     run_entry = resolve_run_entry(manifest, configuration_id, seed)
@@ -173,6 +191,19 @@ def run(config, split_path, manifest_path, configuration_id, seed, output_dir):
         model = inject_lora_layers(load_model(sweep_config, seed), sweep_config, run_entry["layers"])
         params = [parameter for _, parameter in trainable_parameters(model)]
         actual_count = sum(parameter.numel() for parameter in params)
+        adapter_params = lora_adapter_parameters(model)
+        adapter_count = sum(parameter.numel() for _, parameter in adapter_params)
+        expected_adapter_count = run_entry.get("expected_adapter_parameters", 73728)
+        resolved_targets = resolved_lora_target_names(
+            model, run_entry["layers"], config["lora"]["target_modules"]
+        )
+        expected_target_count = len(run_entry["layers"]) * len(config["lora"]["target_modules"])
+        print(f"Resolved LoRA targets ({expected_target_count}): {resolved_targets}", flush=True)
+        print(f"LoRA adapter parameters: {adapter_count}; total trainable parameters: {actual_count}", flush=True)
+        if len(resolved_targets) != expected_target_count:
+            raise ValueError(f"unexpected resolved LoRA target count: {len(resolved_targets)}")
+        if adapter_count != expected_adapter_count:
+            raise ValueError(f"unexpected LoRA adapter count: {adapter_count}; expected {expected_adapter_count}")
         if actual_count != run_entry["expected_trainable_parameters"]:
             raise ValueError(f"unexpected trainable count: {actual_count}")
         optimizer = torch.optim.AdamW(params, lr=config["training"]["learning_rate"],
@@ -216,7 +247,11 @@ def run(config, split_path, manifest_path, configuration_id, seed, output_dir):
             "split_manifest_sha256": split["manifest_sha256"], "dataset_fingerprint": split["dataset_fingerprint"],
             "evaluation_mode": "validation_only",
             "train_size": len(pools["train"]), "validation_size": len(pools["validation"]),
+            "n_lora_adapter_params": adapter_count,
             "n_trainable_params": actual_count,
+            "total_trainable_parameters": actual_count,
+            "resolved_layer_names": run_entry.get("reported_layers", [f"L{x + 1}" for x in run_entry["layers"]]),
+            "resolved_lora_target_names": resolved_targets,
             "epoch_metrics": epoch_metrics, "validation_metrics": validation_metrics,
             "frozen_val_accuracy": frozen_val_accuracy,
             "utility": validation_metrics["accuracy"] - frozen_val_accuracy,
